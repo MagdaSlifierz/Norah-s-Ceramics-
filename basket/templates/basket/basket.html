@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load my_filters %}
+{% load sweetify %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'basket/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="basket-section">
+    {% if messages %}
+    <ul class="info-msg">
+        {% for message in messages %}
+            <li>{{ message.message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="empty-img">
+        <img src="{% static 'images/bg.jpg' %}" alt="Vase">
+    </div>
+    <div class="container">
+        <div class="shopping-cart-container show-shopping-cart">
+        {% if basket_products %}
+            <h2>shopping basket</h2>
+                <div class="shopping-cart-box">
+                    <div class="basket-container">
+                        <!-- product box -->
+                        {% for basket_product in basket_products %}
+                            <div class="product-box" style="display: flex;">
+                                {% if basket_product.product.image %}
+                                    <div class="product-image">
+                                        <img src="{{ basket_product.product.image.url }}" alt="basket product">
+                                    </div>
+                                {% else %}
+                                    <div class="product-image">
+                                        <img src="{% static 'images/no-pictures.png' %}" alt="no product">
+                                    </div>
+                                {%  endif %}
+                            <div class="product-description">
+                                <p class="product-name">{{basket_product.product.name}}</p>
+                                <p class="product-price">£{{basket_product.product.price_pence | currency}}</p>
+                            </div>
+                            <div class="product-quantity">
+                                <form method="post" action={% url 'subtract_from_basket' product_id=basket_product.product.id %}>
+                                    {% csrf_token %}
+                                    <button type="submit" class="minus-btn">-</button>
+                                </form>
+                                <input class="quantity-input" value="{{basket_product.qty}}" type="text" readonly="true">
+                                <form method="post" action={% url 'add_to_basket' product_id=basket_product.product.id %}>
+                                    {% csrf_token %}
+                                    <button type="submit" class="plus-btn">+</button>
+                                </form>
+                            </div>
+                            <div class="total-product-price">£{{basket_product.total_product_price | currency}}</div>
+                            <div class="delete-icon">
+                                <form method="post" action={% url 'delete_from_basket' product_id=basket_product.product.id %}>
+                                    {% csrf_token %}
+                                    <button type="submit" class="minus-btn"><i class="far fa-trash-alt" aria-hidden="true"></i></button>
+                                </form>                               
+                            </div>
+                            </div>
+                        {% endfor %}                           
+                        </div>
+                        <!-- summary box-->
+                        <div class="purchase-box">
+                            <div class="summary-box">
+                                <div class="summary-div">
+                                    <div class="summary-amount">total price</div>
+                                    <div class="summary-items">
+                                        <p>{{sum_products_qty}}
+                                        {% if sum_products_qty == 1 %}
+                                            item</p>
+                                        {% else %}
+                                            items</p>
+                                        {% endif %}                                           
+                                    </div>                                  
+                                </div>
+                                <div id="total-price" class="summary-amount">£{{total_basket_price | currency}}</div>
+                            </div>
+                            <div class="basket-btns">
+                                {% if not user.is_authenticated %}
+                                    <a href="{% url 'checkout' %}" class="button button-dark purchase-button">continue as guest</a>
+                                    <a class="button button-dark purchase-button" href="{% url 'account_login' %}">Log In</a>
+                                {% else %}
+                                    <a href="{% url 'checkout' %}" class="button button-dark purchase-button">proceed</a>
+                                {% endif %}
+                           </div>
+                        </div>                    
+                </div>
+            </div>
+            {% else %}
+                <div class="empty-basket">
+                    <p>your basket is empty</p>
+                    <a class="button button-dark" href="{% url 'product_list' %}">back to shopping</a>
+                </div>
+            {% endif %}      
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+  <script src="{% static 'basket/js/basket.js' %}"></script>
+ 
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load my_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'checkout/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- https://codepen.io/mha-el-sayed/pen/zLmoMX -->
+<section class="checkout-section">
+  <div class='container'>
+    <div class='window'>
+      <!-- order summary -->
+      <div class='order-info'>
+        <div class='order-info-content'>
+          <h3>Order Summary</h3>
+          <div class='line'></div>
+          <div class='order-table'>
+            {% for checkout_product in checkout_products %}
+              <div class="order-box">
+                <div class="checkout-product-image">
+                  {% if checkout_product.product.image %}                   
+                    <img src="{{ checkout_product.product.image.url }}"  class='order-img' alt="product image">                  
+                  {% else %}                 
+                    <img src="{% static 'images/no-pictures.png' %}"  class='order-img' alt="no picture">
+                  {%  endif %}
+                </div>
+                <div class="product-desc">
+                  <p>{{checkout_product.product.name}}</p>
+                  <p class="checkout-product-price">£{{checkout_product.product.price_pence | currency}}</p>
+                </div>
+                <p>qty: {{checkout_product.qty}}</p>
+                <p class="price">£{{checkout_product.total_product_price | currency}}</p>
+              </div>
+            {% endfor %}         
+          </div>
+          <div class='line'></div>
+          <div class='total'> 
+            <div class='total-part vat'>
+              <p>VAT 20%</p>
+              <p>£{{vat_amount | currency}}</p>
+            </div>
+            <div class='total-part delivery'>
+              <p>Delivery</p> 
+              <p>£0.00</p> 
+            </div>
+            <div class='total-part total-price'>
+              <p>Total</p>
+              <p>£{{total_checkout_price | currency}}</p> 
+            </div>
+          </div>
+          <div class='line'></div>
+          <a class="bck-link" href="{% url 'basket' %}">&#x2190; back to basket</a>
+        </div>
+      </div>
+      <!-- strip checkout -->
+      <form action="/checkout/create_checkout_session/" method="POST">
+        <button class="button button-dark checkout-form-btn" type="submit" id="checkout-button">go to secure payment</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% csrf_token %}
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+  <script src="{% static 'checkout/js/checkout.js' %}"></script> 
+  <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}

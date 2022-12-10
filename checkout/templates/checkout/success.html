@@ -1,0 +1,29 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% load my_filters %} 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'checkout/css/style.css' %}" />
+{% endblock %} 
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="success-txt">
+      <p>
+        Hello {{customer.name}}! <br />
+        Your payment has been succeeded. <br />
+        Your order number is: {{order.order_no}}. <br />
+        We will notify you immediately as soon as your order is shipped. <br />
+        If you have any questions about this order, please send a message in the
+        "contact" section with above order number.
+      </p>
+      <a class="button button-dark" href="{% url 'home' %}">back to home</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %} 
+
+{% block extra_js %} 
+{{ block.super }}
+<script src="{% static 'checkout/js/checkout.js' %}"></script>
+{% endblock %}

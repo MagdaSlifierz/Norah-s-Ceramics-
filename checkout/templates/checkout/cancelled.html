@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load my_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'checkout/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+      <p>Your payment was cancelled.</p>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+  <script src="{% static 'checkout/js/checkout.js' %}"></script>
+{% endblock %}
