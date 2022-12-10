@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load my_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+{% endblock %}
+{% block content %}
+
+<!-- HERO SECTION -->
+<main id="home-section" class="section">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-container">
+      <div class="home-txt center">
+        <h1>handmade with love</h1>
+        <p>Add modern British ceramics, glass and zero waste accessories to your home, 
+          all individually handmade with love.</p>
+          <a class="link" href="{% url 'product_list' %}">shop all now</a>
+      </div>
+      <div class="hero-image">
+        <img
+          src="{% static 'images/hero.jpg' %}"
+          class="hero-img"
+          alt="cups"
+        />
+      </div>
+    </div>
+      <div class="home-images center">
+        <div class="home-img home-img-one center">
+          <p class="link product-link">ceramic bowls</p>
+          <a href="{% url 'product_list'%}?sub_category=bowls"><img src="{% static 'images/home-img-one.jpg' %}" alt="image"></a>
+        </div>
+        <div class="home-img home-img-two center">
+          <p class="link product-link">ceramic decor</p>
+          <a  href="{% url 'product_list'%}?sub_category=ceramic_decor"><img src="{% static 'images/home_pic.jpg' %}" alt="image"></a>
+        </div>
+        <div class="home-img home-img-three center">
+          <p class="link product-link">ceramic mugs</p>
+          <a  href="{% url 'product_list'%}?sub_category=mugs"><img src="{% static 'images/home-img-three.jpg' %}" alt="image">
+            </a>
+        </div>
+      </div>
+  </div>
+  </main>
+<!-- BEST SELLERS SECTION -->
+<section id="best-sellers" class="b-sellers-section">
+  <div class="b-s-container">
+    <h2>Best sellers</h2>
+    <div class="cards-container center">
+      <ul class="cards">
+        {% if best_sellers %}
+        {% for best_seller in best_sellers %}
+          <li class="card cards__item">
+            <div class="card__frame">
+              <div class="card__picture">
+                {% if best_seller.product.image %}
+                    <img src="{{ best_seller.product.image.url }}" width="120" alt="image">
+                {% else %}
+                    <img src="{% static 'images/no-pictures.png' %}" alt="image">
+                {%  endif %}
+              </div>
+              <h4 class="card__title">{{best_seller.product.name}}</h4>
+              <ul class="item_rate">
+                <li>☆</li>
+                <li>☆</li>
+                <li>☆</li>
+                <li>☆</li>
+                <li>☆</li>
+              </ul>
+              <h3>£{{best_seller.product.price_pence | currency}}</h3>
+              <a class="add-btn" href="{% url 'product_detail' slug=best_seller.product.slug %}">more</a>
+            </div>            
+            <div class="card__content">
+              <p>{{best_seller.product.short_description}}</p>
+              
+            </div>
+          </li>
+          {% endfor %}
+          {% endif %}
+      </ul>
+    </div>
+    </div>
+</section>
+<!-- NEW COLLECTION SECTION -->
+<section class="new-collection">
+  <div class="bg-box"></div>
+  <div class="container container-mobiles">
+    <div class="text-box">
+      <h2>check a new collection of ceramic decors</h2>
+      <p>Discover a new collection of unusual ceramic decorations that will
+         change the interior of your home.
+      </p>
+      <a class="link" href="{% url 'product_list'%}?sub_category=ceramic_decor">shop now</a>
+    </div>
+    <div class="image-box">
+      <img src="{% static 'images/new-collection.jpg' %}" alt="image">
+    </div>        
+  </div>
+</section>
+<!-- WHY US, OUR VALUES SECTION -->
+<section class="info">
+  <div class="container">
+    <div class="parts-wrapper">
+      <h2>why us ?</h2>
+      <div class="parts-container">
+        <div class="part">
+          <img src="{% static 'images/free-delivery.png' %}" alt="image">
+          <h4>free shipping</h4>
+          <p>Don't worry about delivery costs.</p>
+        </div>
+        <div class="part">
+          <img src="{% static 'images/refund.png' %}" alt="image">
+          <h4>100% refund</h4>
+          <p>You have 14 days to return the purchase. You will receive your money within 24 hours.</p>
+        </div>
+        <div class="part">
+          <img src="{% static 'images/support.png' %}" alt="image">
+          <h4>24h support</h4>
+          <p>Our telephone line is open 24h.</p>
+        </div>
+        <div class="part">
+          <img src="{% static 'images/charity.png' %}" alt="image">
+          <h4>charity</h4>
+          <p>We donate 5% of our income to charity.</p>
+        </div>
+      </div>
+      <h2>our values</h2>
+      <div class="parts-container-two">
+        <div class="part">
+          <img src="{% static 'images/hand-made.png' %}" alt="image">
+          <h4>handmade</h4>
+        </div>
+        <div class="part">
+          <img src="{% static 'images/plant-based.png' %}" alt="image">
+          <h4>zero waste products</h4>
+        </div>
+        <div class="part">
+          <img src="{% static 'images/recycle.png' %}" alt="image">
+          <h4>recycled materials</h4>
+        </div>
+        <div class="part">
+          <img src="{% static 'images/plastic.png' %}" alt="image">
+          <h4>plastic free</h4>
+        </div>  
+    </div>
+    </div>
+    </div>
+
+</section>
+<!-- NEW ARRIVALS SECTION -->
+<section id="new-arriv" class="section new-arrivals">
+  <h2>new arrivals</h2>
+  <div class="container">  
+      <div class="carousel-container">
+        {% for product in new_arrivals %}
+          <div class="item fade">
+            <div class="image">
+              {% if product.image %}
+                  <img src="{{ product.image.url }}" alt="image">
+              {% else %}
+                  <img src="{% static 'images/no-pictures.png' %}" alt="image">
+              {%  endif %}
+              <div class="text is-text-left">
+                <h4 class="title">{{ product.name }}</h4>
+                <h4 class="title">£{{product.price_pence | currency}}</h4>
+              </div>     
+              <a class="more-button" href="{% url 'product_detail' slug=product.slug %}">more</a>           
+            </div>
+          </div>
+        {% endfor %}
+        <a class="prev center">
+          <i class="fas fa-angle-left"></i></a>
+          <a class="next center"><i class="fas fa-angle-right"></i></a>
+      </div>
+  </div>
+</section>
+<!-- NEWSLETTER SECTION -->
+<section class="newsletter center">
+  <h3>Subscribe to our newsletter and be up to date!</h3>
+  <div class="newsletter-box">
+    <form method="post" action="{% url 'newsletter' %}">
+      {% csrf_token %}
+      {{newsletter_email.newsletter_email}}
+      <button id="open-newsletter" class="button">
+        SUBSCRIBE
+      </button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+  {{ block.super }}
+  <script src="{% static 'home/js/index.js' %}"></script>
+{% endblock %}
