@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load i18n socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<section class="login-section">
+  <div class="login-img">
+    <img src="{% static 'images/bg.jpg' %}" alt="image">
+  </div>
+  <div class="container">
+    <div class="login-form-grid-container">
+      <div class="login-box">
+        <div class="login-heading">
+          <h2>Log In to your account!</h2>
+        </div>
+        {% get_providers as socialaccount_providers %}
+          <div class="social-btns">
+        {% if socialaccount_providers %}
+          <p>{% blocktrans with site.name as site_name %}Please log in with one
+          of your existing social accounts, or form below or <a href="{{ signup_url }}">REGISTER</a>
+          for an account{% endblocktrans %}</p>
+          <div class="socialaccount_ballot">
+            <ul class="socialaccount_providers">
+            {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+            </ul>
+          </div>
+            {% include "socialaccount/snippets/login_extra.html" %}
+            {% else %}
+              <p class="login-txt">{% blocktrans %}If you have not created an account yet, then please
+              <a href="{{ signup_url }}">register</a> first.{% endblocktrans %}</p>
+            {% endif %}
+          </div>
+          <form class="login" method="POST" action="{% url 'account_login' %}">
+          {% csrf_token %} 
+          {{ form }}
+          <div class="show-box show-box-login">
+            <label class="label_login" for="show_password_login">show password</label>
+            <input type="checkbox" id="show_password_login">
+          </div>
+          {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+          {% endif %}
+            <div class="forgot-link">
+              <a class="secondaryAction forgot-link" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+            </div>
+            <button class="button button-dark register-input" value="submit" type="submit">{% trans "LOG IN" %} &raquo;</button>
+            <p class="terms-txt">By joining, you agree to the Terms and Privacy Policy</p>
+          </form>
+      
+      </div>
+    </div>
+  </div>
+</section>
+  {% endblock %}

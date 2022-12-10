@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load account %}
+{% load static %}
+
+{% block title %}Error 401{% endblock title %}
+
+{% block content %}
+    <section class="errors-section">
+        <div class="errors-container">
+            <div class="error-box">
+                <h2>oops! you are not authorized to proceed... please register or log in.</h2>
+                <div class="error-img">
+                    <img src="{% static 'images/401.jpg' %}" alt="image">
+                </div>                 
+            </div>
+            <div class="errors-buttons">
+                <a class="button button-dark" href="{% url 'account_signup' %}">Register</a>             
+                <a class="button button-dark" href="{% url 'account_login' %}">Log In</a>
+            </div>
+        </div>
+
+    </section>
+{% endblock content %}

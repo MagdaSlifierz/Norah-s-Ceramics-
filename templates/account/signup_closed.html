@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load i18n %}
+{% load account %}
+{% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
+
+
+{% block content %}
+  <section class="allauth-section">
+    <div class="allauth-img">
+      <img src="{% static 'images/bg.jpg' %}" alt="image">
+    </div>
+    <div class="container">
+      <div class="allauth-txt">
+        <h1>{% trans "Sign Up Closed" %}</h1>
+        <p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+      </div>
+    </div>
+  </section>
+{% endblock %}

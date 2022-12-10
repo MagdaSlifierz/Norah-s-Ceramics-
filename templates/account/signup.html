@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% load socialaccount %}
+{% load i18n socialaccount %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block content %}
+<section class="register-section">
+  <div class="register-img">
+    <img src="{% static 'images/bg.jpg' %}" alt="image">
+  </div>
+  <div class="container">
+    <div class="form-grid-container center">
+      <div class="register-box">
+        <div class="register-heading">
+          <h2>Register your account!</h2>
+        </div>
+        {% get_providers as socialaccount_providers %}
+        <div class="social-btns">
+          {% if socialaccount_providers %}
+            <p>{% blocktrans with site.name as site_name %}Please register with one
+            of your existing social accounts or form below, or <a href="{{ login_url }}">LOGIN</a>
+            for an account {% endblocktrans %}</p>
+            <div class="socialaccount_ballot">
+              <ul class="socialaccount_providers">
+                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+              </ul>
+            </div>
+          {% include "socialaccount/snippets/login_extra.html" %}
+          {% else %}
+          <p class="register-txt">Register an account to get access to your orders and reviews history! <br>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">log in</a>.{% endblocktrans %}</p>
+          {% endif %}
+        </div>
+        <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+          {% csrf_token %} 
+          {{ form }}
+          <div class="show-box show-box-one">
+            <label class="label_one" for="show_password_one">show password</label>
+            <input type="checkbox" id="show_password_one">
+          </div>
+          <div class="show-box show-box-two">
+            <label class="label_two" for="show_password_two">show password</label>
+            <input type="checkbox" id="show_password_two">
+          </div>
+          {% if redirect_field_value %}     
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>   
+          {% endif %}
+            <button class="button button-dark register-input" value="submit" type="submit">{% trans "REGISTER" %} &raquo;</button>
+            <p class="terms-txt">By joining, you agree to the Terms and Privacy Policy</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

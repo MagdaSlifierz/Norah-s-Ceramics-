@@ -1,0 +1,235 @@
+{% load static %}
+{% load my_filters %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+    content="Norah's Ceramics is an online store that offers handmade ceramics, glass and zero waste accessories.">
+    <meta name="keywords" content="ceramics, glass, zero waste, united kingdom">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hubballi&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'favicon_io/favicon.ico' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
+    {% block corecss %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    {% endblock %}
+    {% block extra_css %}
+    {% endblock %}
+    <title>Norah's Ceramics{% block extra_title %}{% endblock %}</title>
+  </head>
+
+  <body>
+    <!-- Back to top button -->
+    <div id="back-to-top-button" class="go-up-btn"><i class="fas fa-chevron-circle-up"></i></div>    
+    <!-- HEADER -->
+    <header id="header">
+      {% if messages %}
+        <ul class="info-msg">
+            {% for message in messages %}
+                <li>{{ message.message }}</li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+      {% url 'home' as url %}
+      <div class="logo {% if request.path == url %} active {% endif %}">
+        <a href="{{ url }}">
+          <img src="{% static 'images/logo.png' %}" alt="Logo" />
+        </a>
+      </div>
+      <div id="basket" class="basket-box">
+        <a href="{% url 'basket' %}"><img class="shop-basket" src="{% static 'images/shopping-basket.png' %}" alt=""></a><span>£{{total_basket_price | currency }}</span>
+      </div>
+      <nav class="menu">
+        <div class="wrapper-menu">
+          <div class="line-menu half start"></div>
+          <div class="line-menu"></div>
+          <div class="line-menu half end"></div>
+        </div>
+        <div id="my-sidebar" class="sidebar">
+          <ol id="menu-list">
+            {% url 'home' as url %}
+            <li class="menu-item ">
+              <a class="close-sidebar {% if request.path == url %} active {% endif %}" href="{{ url }}">Home</a></li>
+            <li id="ceramics" class="menu-item">
+             <span>Ceramics &dtrif;</span> 
+              <ol class="sub-menu ceramics-content">
+                <li class="menu-item"><a href="{% url 'product_list'%}?category=ceramics">all</a></li>
+                <li class="menu-item"><a href="{% url 'product_list'%}?sub_category=plates">Plates</a></li>
+                <li class="menu-item"><a href="{% url 'product_list'%}?sub_category=bowls">Bowls</a></li>
+                <li class="menu-item"><a href="{% url 'product_list'%}?sub_category=mugs">Mugs</a></li>
+                <li class="menu-item"><a href="{% url 'product_list'%}?sub_category=ceramic_decor">Decor</a></li>
+              </ol>
+            </li>
+            <li id="glass" class="menu-item">
+              <span> Glass &dtrif;</span>
+              <ol class="sub-menu glass-content">
+                <li class="menu-item"><a href="{% url 'product_list'%}?category=glass">all</a></li>
+                <li class="menu-item"><a href="{% url 'product_list'%}?sub_category=bottles">Bottles</a></li>
+                <li class="menu-item"><a href="{% url 'product_list'%}?sub_category=jars">Jars</a></li>
+                <li class="menu-item"><a href="{% url 'product_list'%}?sub_category=glass_decor">Decor</a></li>
+              </ol>
+            </li>
+            <li id="zero-waste" class="menu-item">
+              <span>Zero Waste &dtrif;</span>
+              <ol class="sub-menu zero-waste-content">
+                <li class="menu-item"><a href="{% url 'product_list'%}?category=zero_waste"">all</a></li>
+                <li class="menu-item"><a href="{% url 'product_list'%}?sub_category=kitchen">Kitchen</a></li>
+                <li class="menu-item"><a href="{% url 'product_list'%}?sub_category=bathroom">Bathroom</a></li>
+              </ol>
+            </li>
+            <li class="menu-item"><a class="close-sidebar" href="{% url 'home' %}#new-arriv">New In</a></li>
+            <li class="menu-item"><a class="close-sidebar" href="{% url 'home' %}#best-sellers">best sellers</a></li>
+            <li class="menu-item"><a class="close-sidebar" href="{% url 'contact' %}">Contact</a></li>
+          </ol>
+            <div class="auth-links">
+              <ul>
+                {% if user.is_authenticated %}
+                  <li id="profile" class="menu-item profile-item">
+                    <p><img class="user-icon" src="{% static 'images/user.png' %}" alt="user icon">my profile &dtrif;</p> 
+                    <ol class="sub-menu profile-content">
+                      <li class="menu-item profile-item"><a href="{% url 'customer_profile' request.user.id %}">personal information</a></li>
+                      <li class="menu-item"><a href="{% url 'order_history' request.user.id %}">orders</a></li>
+                      <li class="menu-item"><a href="{% url 'user_reviews' request.user.id %}">reviews</a></li>
+                      <li class="menu-item"><a href="{% url 'account_logout' %}">Logout</a></li>
+                    </ol>
+                  </li>
+                {% else %}
+                  <li><a href="{% url 'account_signup' %}">Register</a></li>
+                  <li><a href="{% url 'account_login' %}">Login</a></li>
+                {% endif %}
+              </ul>
+            </div>
+        </div>
+      </nav>
+    </header>
+
+    {% block content %}
+
+    <!-- CONTENT GOES HERE -->
+
+    {% endblock content %}
+<!-- FOOTER -->
+    <footer id="footer">
+      <div class="box-logo">
+        <a class="logo" href="{% url 'home' %}">
+          <img src="{% static 'images/logo.png' %}" alt="Logo" />
+        </a>
+      </div>
+      <div id="footer-container">
+        <div class="footer-box , social-icons">
+          <h3>Stay in touch</h3>
+          <ul>
+            <li>
+              <a
+                href="https://www.facebook.com/Norahs-Ceramics-103884272399147"
+                target="_blank"
+                rel="noopener"
+                aria-label="Visit our Facebook page"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+            </li>
+            <li>
+              <a
+                href="https://www.twitter.com/"
+                target="_blank"
+                rel="noopener"
+                aria-label="Visit our Twitter page"
+                ><i class="fab fa-twitter"></i
+              ></a>
+            </li>
+            <li>
+              <a
+                href="https://www.instagram.com/"
+                target="_blank"
+                rel="noopener"
+                aria-label="Visit our Instagram page"
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-box">
+          <h3>Quick links</h3>
+          <ul>
+            {% url 'home' as url %}
+            <li class="{% if request.path == url %} active {% endif %}">
+              <a href="{{ url }}">Home </a>
+            </li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'terms' %}">Terms and Conditions</a></li>
+            <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+            <li><a href="{% url 'returns_policy' %}">Returns</a></li>
+            <li><a href="{% url 'shipping' %}">Shipping and Delivery</a></li>
+            
+          </ul>
+        </div>
+        <div class="footer-box">
+          <h3>Office working hours</h3>
+          <ul>
+            <li>Monday: 9:00 - 18:00</li>
+            <li>Tuesday: 9:00 - 18:00</li>
+            <li>Wednesday: 9:00 - 18:00</li>
+            <li>Thursday: 9:00 - 18:00</li>
+            <li>Friday: 9:00 - 18:00</li>
+          </ul>
+        </div>
+        <div class="footer-box">
+          <h3>Contact Us</h3>
+          <div class="contact-info"><img src="{% static 'images/phone.png' %}" alt=""><span>01746 315102</span></div>
+          <div class="contact-info"><img src="{% static 'images/email.png' %}" alt=""><span>info@norahsceramics.com</span></div>
+          <div class="contact-info"><img src="{% static 'images/gps.png' %}" alt=""><span>Bridgnorth, UK</span></div>
+        </div>
+      </div>
+      <p>
+        Norah's Ceramics &copy;
+        <span id="copyright">
+          <script>
+            document
+              .getElementById("copyright")
+              .appendChild(document.createTextNode(new Date().getFullYear()));
+          </script>
+        </span>
+        All Rights Reserved
+      </p>
+    </footer>
+
+    {% block core_js %}
+
+    <script
+      src="https://kit.fontawesome.com/111b3a0b11.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script>
+      const timeouts = document.querySelectorAll(".info-msg");
+      setTimeout(hideElement, 5000); //milliseconds until timeout//
+      function hideElement() {
+        for (i = 0; i < timeouts.length; i++) {
+          timeouts[i].style.display = "none";
+        }
+      }
+      </script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+      
+      {% endblock %}
+      
+    {% block extra_js %} 
+    {% endblock %}
+    {% load sweetify %}
+    {% sweetify %}
+  </body>
+</html>

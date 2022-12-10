@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign Out" %}{% endblock %}
+
+{% block content %}
+  <section class="allauth-section">
+    <div class="allauth-img">
+      <img src="{% static 'images/bg.jpg' %}" alt="image">
+    </div>
+    <div class="container">
+      <div class="allauth-txt">
+        <h1>{% trans "Log Out" %}</h1>
+        <p>{% trans 'Are you sure you want to log out?' %}</p>      
+        <form method="post" action="{% url 'account_logout' %}">
+          {% csrf_token %}
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+          {% endif %}
+          <button class="button button-dark" type="submit">{% trans 'Log Out' %}</button>
+        </form>
+
+      </div>
+    </div>
+  </section>
+{% endblock %}

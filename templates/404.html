@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load account %}
+{% load static %}
+
+{% block title %}Error 404{% endblock title %}
+
+{% block content %}
+    <section class="errors-section">
+        <div class="errors-container">
+            <div class="error-box">
+                <h2>oops! page not found...</h2>
+                <div class="error-img">
+                    <img src="{% static 'images/404.jpg' %}" alt="image">
+                </div>               
+                <a class="button button-dark" href="{% url 'home' %}">Back to home</a> 
+            </div>
+        </div>
+
+    </section>
+{% endblock content %}
