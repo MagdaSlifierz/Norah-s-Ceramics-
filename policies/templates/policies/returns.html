@@ -1,0 +1,74 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'policies/css/style.css' %}" />
+{% endblock %} 
+
+{% block content %}
+<section class="return-section">
+  {% if messages %}
+  <ul class="info-msg center">
+    {% for message in messages %}
+    <li>{{ message.message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="return-container">
+    <div class="term-box">
+
+      <p>
+        RETURN POLICY Last updated July 12, 2022 <br /><br />
+  
+        Thank you for your purchase. We hope you are happy with your purchase.
+        However, if you are not completely satisfied with your purchase for any
+        reason, you may return it to us for a full refund only. Please see below
+        for more information on our return policy.
+        <br /><br />
+        RETURNS<br /><br />
+  
+        All returns must be postmarked within fourteen (14) days of the purchase
+        date. All returned items must be in new and unused condition, with all
+        original tags and labels attached.
+        <br /><br />
+        RETURN PROCESS<br /><br />
+  
+        To return an item, please email customer service at
+        info@norahsceramics.com to obtain a Return Merchandise Authorisation (RMA)
+        number. After receiving a RMA number, place the item securely in its
+        original packaging and the return form provided, then mail your return to
+        the following address:
+        <br /><br />
+        Norah's Ceramics Attn: Returns 3 Castle Hill Walk
+        Bridgnorth, West Midlands WV16 4AF United Kingdom
+        <br /><br />
+        Please note, you will be responsible for all return shipping charges. We
+        strongly recommend that you use a trackable method to mail your return.
+        <br /><br />
+        REFUNDS
+        <br /><br />
+        After receiving your return and inspecting the condition of your item, we
+        will process your return. Please allow at least seven (7) days from the
+        receipt of your item to process your return. Refunds may take 1-2 billing
+        cycles to appear on your credit card statement, depending on your credit
+        card company. We will notify you by email when your return has been
+        processed.
+        <br /><br />
+        EXCEPTIONS<br /><br />
+  
+        For defective or damaged products, please contact us at the contact
+        details below to arrange a refund or exchange. Please Note ● Sale items
+        are FINAL SALE and cannot be returned.
+        <br /><br />
+        QUESTIONS<br /><br />
+  
+        If you have any questions concerning our return policy, please contact us
+        at:<br /><br />
+        01746 315102 info@norahsceramics.com<br /><br />
+        This return policy was created using Termly's Return and Refund Policy
+        Generator.<br /><br />
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

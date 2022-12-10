@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load my_filters %}
+{% load custom_tags %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'product/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="product-section">
+  {% if messages %}
+    <ul class="info-msg">
+        {% for message in messages %}
+            <li>{{ message.message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %} 
+    <div class="container">
+      <div class="product_container">
+          <div class="left-column">
+            {% if object.image %}
+              <img src="{{ object.image.url }}" alt="image">
+            {% else %}
+              <img class="no-img" src="{% static 'images/no-pictures.png' %}" alt="image">
+            {%  endif %}
+          </div>      
+          <div class="right-column">       
+            <div class="product-description">
+              <h4>{{ object.name }}</h4>
+              <h4>£{{product.price_pence | currency}}</h4>
+              <ul class="avr-stars-list">
+                {% if not object.reviews_rating.0 %}
+                  <li>☆</li>
+                  <li>☆</li>
+                  <li>☆</li>
+                  <li>☆</li>
+                  <li>☆</li>
+                {% else %}
+                  {% with ''|center:object.reviews_rating.0 as range %}
+                  {% for _ in range %}
+                    <li style="color: #f9bf3b">★</li>
+                  {% endfor %}
+                  {% endwith %}
+                {% with '5'|subtract:object.reviews_rating.0 as empty_stars %}
+                  {% with ''|center:empty_stars as range %}
+                      {% for _ in range %}
+                        <li>☆</li>
+                      {% endfor %}
+                    {% endwith %}
+                  {% endwith %}      
+                {% endif %}                       
+              </ul>
+            {% if object.product_reviews %}
+              <span id="see-rev" class="r-button reviews-qty">{{object.reviews_rating.1}} 
+              {% if object.reviews_rating.1 == 1 %}
+                review</span>
+              {% else %}
+                reviews</span>
+              {% endif %}
+            {% endif %}
+            <span id="open-modal" class="r-button">write review</span>
+            <div class="product-det">
+              {% if  object.height_cm %}
+                <p>height: {{ object.height_cm }} cm</p>
+              {% endif %}
+              {% if  object.width_cm %}
+                <p>width: {{ object.width_cm }} cm</p>
+              {% endif %}
+              {% if  object.volume_ml %}
+                <p>volume: {{ object.volume_ml }} ml</p>
+              {% endif %}
+              {% if  object.length_cm %}
+                <p>length: {{ object.length_cm }} cm</p>
+              {% endif %}               
+            </div>
+            </div>
+            <div class="product-description description">
+              <h4>description</h4>
+              <p>{{ object.description }}</p>
+            </div>
+            <div class="product-price">
+              <div class="buttons">
+                <form method="post" action={% url 'add_to_basket' product_id=product.id %}>
+                    {% csrf_token %}
+                    <button type="submit" class="button button-dark">add to basket</button>
+                </form>
+              </div>
+          </div>       
+      </div>
+    </div> 
+    </div> 
+    <div class="section-img">
+      <img src="{% static 'images/product-details.jpg' %}" alt="image">
+    </div>
+</section>
+<!--MAKE PRODUCT REVIEW -->
+  <div class="popup">
+    <div class="popup-inner">
+      <div class="popup__photo">
+        {% if object.image %}
+        <img src="{{ object.image.url }}" alt="image">
+        {% else %}
+          <img class="no-img" src="{% static 'images/no-pictures.png' %}" alt="image">
+        {%  endif %}
+      </div>
+      <div class="popup__text">
+        <h3>
+          {% if user.is_authenticated %}
+            how do you rate this product?
+          {% else %}
+            to leave a review of this product you must register or log in to your account
+          {% endif %}
+        </h3>
+        {% if user.is_authenticated %}      
+        <form class="rev-form" action="{% url 'review' product.slug  %}" method="post">
+          {% csrf_token %}
+          <div class="rev-stars">
+            {{review_form.stars}}
+          </div>
+          {{review_form.description}}
+          <input type="submit" class="button button-dark rev-btn" value="submit">
+        </form>
+        {% endif %}
+        </div>
+      <button class="popup__close">&#10006;</button>
+    </div>
+  </div>
+<!--SEE PRODUCT REVIEWS -->
+  <div class="rev-popup">
+    <div class="popup-inner rev-box">
+      <div class="box">
+        {% for review in reviews %}
+          <div class="rev_text">
+            <p>{{review.reviewer.username}}</p>
+            <p>{{review.created_at}}</p>         
+            <ul class="stars-list">
+              {% with ''|center:review.stars as range %}
+              {% for _ in range %}
+                <li style="color: #f9bf3b">★</li>
+              {% endfor %}
+              {% endwith %}
+              {% with '5'|subtract:review.stars as empty_stars %}
+                {% with ''|center:empty_stars as range %}
+                  {% for _ in range %}
+                    <li>☆</li>
+                  {% endfor %}
+                {% endwith %}
+              {% endwith %}                         
+            </ul>
+            <p>{{review.description}}</p>
+          </div>
+        {% endfor %}
+        {% if not reviews %}
+          <div class="rev_text">
+            <p class="no-rev">this product has no reviews yet</p>   
+          </div>
+        {% endif %}
+        <button class="popup__close_btn">&#10006;</button>      
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+  <script src="{% static 'product/js/index.js' %}"></script>
+ 
+{% endblock %}
