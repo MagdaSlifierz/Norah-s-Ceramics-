@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'about/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="about-section">
+    <div class="about-bg"></div>
+    <div class="container">
+        <div class="about-txt">
+            <h2>my love - art</h2>
+            <p>"Art is standing with one hand extended into
+            the universe and one hand 
+            extended into the world, and letting 
+            ourselves be a conduit for passing energy."</p>
+            <p class="quote-author"> - Albert Einstein</p>
+        </div>
+        <div class="about-image">
+            <img src="{% static 'images/about_3.jpg' %}" alt="about image">
+        </div>
+    </div>
+</section>
+<section class="who-section">
+    <div class="who-bg"></div>
+    <div class="container">
+        <div class="who-image">
+            <img src="{% static 'images/owner.jpg' %}" alt="owner image">
+        </div>
+        <div class="who-txt">
+            <h2>who we are ?</h2>
+            <p>I'm Norah Johnson. 
+            I am the owner of Norah's Ceramics. I have been dealing with ceramics since childhood.
+            My dad was a great artist. He was mainly involved in ceramics but also created in glass. 
+            In 2018, I founded my company and since then I have been trying to create beautiful things without impacting the natural environment. 
+            I invite you to my world and I hope you will love it as much as I do.
+            </p>
+        </div>       
+    </div>
+</section>
+<section class="eco-section">
+    <div class="eco-bg"></div>
+    <div class="container">       
+        <div class="eco-txt">
+            <h2>taking packaging seriously</h2>
+            <p>We want to help end unnecessary packaging waste when shopping online.
+                 We're committed to using minimal, environmentally friendly postage packaging
+                  and keeping the amount of plastic used for products in general to an absolute minimum.
+            </p>
+        </div>
+        <div class="eco-image">
+            <img src="{% static 'images/about_2.jpg' %}" alt="about image">
+        </div>     
+    </div>
+</section>
+<section class="help-section">
+    <div class="help-bg"></div>
+    <div class="container">
+        <div class="help-image">
+            <img src="{% static 'images/about_6.jpg' %}" alt="about image">
+        </div>
+        <div class="help-txt">
+            <h2>help us to help</h2>
+            <p>We donate 5% of our income to charity every year. 
+                In addition, we organize free classes for people with disabilities. 
+                We love to awaken the spirit of art in people's souls!            </p>
+        </div>       
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+ 
+{% endblock %}

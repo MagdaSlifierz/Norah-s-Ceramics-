@@ -1,0 +1,12 @@
+[tool.black]
+line_length = 79
+exclude ='''
+/(
+    | venv-ceramics
+    | migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+skip = ["migrations/","venv-ceramics/"]
