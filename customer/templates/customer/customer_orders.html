@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load data_tags %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'customer/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="customer-profile-section">
+  <div class="order-container">
+    <h2>Your orders history</h2>
+    {% if object_list %}
+      <div id="orders">
+        <div class="order-info title">
+          <p>order number</p>
+          <p>order date</p>
+          <p>order status</p>
+          <p>ordered products</p>
+        </div>
+        {% for order in object_list %}
+        <div class="order-info">
+          <p>{{order.order_no}}</p>
+          <p>{{order.created_at}}</p>
+          <p>{{order.status}}</p>
+          <div class="products">
+            {% for product_data in orders_data|get_key:order.id %}
+              <p>{{product_data.name}}</p>
+              <p>qty: {{product_data.qty}}</p>         
+            {% endfor %}    
+          </div>
+        </div>
+        {% endfor %}
+        </div>      
+        {% if is_paginated %}
+          <div class="pagination">
+            <span class="page-links">
+              {% if page_obj.has_previous %}
+                  <a href="{% url 'order_history' user.id %}?page={{ page_obj.previous_page_number }}">previous page</a>
+              {% endif %}
+              <span class="page-current">
+                  page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+              </span>
+              {% if page_obj.has_next %}
+                  <a href="{% url 'order_history' user.id %}?page={{ page_obj.next_page_number }}">next page</a>
+              {% endif %}
+            </span>
+          </div>
+        {% endif %}     
+        {% else %}
+          <h2 class="no-orders-heading">you have no orders</h2>
+          <a class="back-link" href="{% url 'home' %}">&#x2190; back to home</a>
+    {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'customer/js/customer.js' %}"></script> 
+{% endblock %}

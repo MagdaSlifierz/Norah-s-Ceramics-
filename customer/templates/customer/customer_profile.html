@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'customer/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="customer-profile-section">
+  {% if messages %}
+    <ul class="info-msg">
+        {% for message in messages %}
+            <li>{{ message.message }}</li>
+        {% endfor %}
+    </ul>
+  {% endif %}
+  <div class="customer-bg-img">
+    <img src="{% static 'images/bg.jpg' %}" alt="vase">
+  </div>
+  <div class="customer-container">
+    <div class="box">
+      <!-- ---------PERSONAL INFORMATION--------------------->
+      <form class="personal-form" method="post">
+        <p class="personal-heading">Personal Information</p>
+        {% csrf_token %}
+          <label class="profile-label">First Name</label>
+          {{personal_information_form.first_name}}
+          {% if personal_info_form_errors and 'first_name' in personal_info_form_errors %}
+            <div class="error-profile">
+              <p>{{personal_info_form_errors.first_name.0}}</p>
+            </div>
+          {% endif %}
+          <label class="profile-label">Last Name</label>
+          {{personal_information_form.last_name}}
+          {% if personal_info_form_errors and 'last_name' in personal_info_form_errors %}
+            <div class="error-profile">
+              <p>{{personal_info_form_errors.last_name.0}}</p>
+            </div>
+          {% endif %}         
+          <label class="profile-label">Phone number</label>
+          {{personal_information_form.phone_number}}
+          {% if personal_info_form_errors and 'phone_number' in personal_info_form_errors %}
+            <div class="error-profile">
+              <p>{{personal_info_form_errors.phone_number.0}}</p>
+            </div>
+          {% endif %}
+          <label class="profile-label">Email</label>
+          {{personal_information_form.email}}
+          {% if personal_info_form_errors and 'email' in personal_info_form_errors %}
+            <div class="error-profile">
+              <p>{{personal_info_form_errors.email.0}}</p>
+            </div>
+          {% endif %}          
+          <input type="hidden" name="form_type" value="profile_form" /> 
+          <input class="button button-dark update-profil" type="submit" value="Update" />
+      </form>
+      <div class="profile-buttons">
+        <a href="{% url 'password_change' user.id %}" class="button button-dark">change password</a>
+        <a href="{% url 'customer_delete' user.id %}" class="button button-dark">delete account</a>
+      </div>
+    </div>
+    <!-- ---------ADDRESS INFORMATION--------------------->
+    <form class="address-form" method="post" action={% url 'customer_address' id=request.user.id %}>
+      <p class="address-heading">Address Information</p>
+      {% csrf_token %}
+        <label class="profile-label">address line 1</label>
+        {{address_information_form.address_1}}
+        <label class="profile-label">address line 2</label>
+        {{address_information_form.address_2}}
+        <label class="profile-label">post code</label>
+        {{address_information_form.postcode}}
+        <label class="profile-label">town/city</label>
+        {{address_information_form.town}}
+        <label class="profile-label">county</label>
+        {{address_information_form.county}}
+        <label class="profile-label">country</label>
+        {{address_information_form.country}}
+        <input type="hidden" name="form_type" value="address_form" /> 
+        <input class="button button-dark update-profil" type="submit" value="Update" />
+    </form>
+  </div>
+  
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'customer/js/customer.js' %}"></script> 
+{% endblock %}

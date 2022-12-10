@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load data_tags %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'customer/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="customer-profile-section">
+  <div class="review-container">
+    <h2>Your reviews history</h2>
+    {% if object_list %}
+        <div id="reviews">
+            <div class="review-info title">
+                <p class="head">review description</p>
+                <p class="head">review date</p>
+                <p class="head">review stars</p>
+                <p class="head">is review visible?</p>
+                <p class="head">product</p>
+            </div>
+        {% for review in object_list %}
+            <div class="review-info">
+                <p class="description">{{review.description}}</p>
+                <p class="table-body">{{review.created_at}}</p>
+                <p class="table-body">{{review.stars}}</p>
+                {% if review.is_admin_approved and review.is_visible %}
+                <p class="table-body" style="color:#2bdf2b">approved and visible</p>
+                {% else %}
+                <p class="table-body" style="color:red">waiting for approval by the administrator</p>
+                {% endif %}
+                <p  class="table-body">{{review.product.name}}</p>
+            </div>
+        {% endfor %}
+        </div>      
+        {% if is_paginated %}
+            <div class="pagination">
+                <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'user_reviews' user.id %}?page={{ page_obj.previous_page_number }}">previous page</a>
+                {% endif %}
+                <span class="page-current">
+                    page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="{% url 'user_reviews' user.id %}?page={{ page_obj.next_page_number }}">next page</a>
+                {% endif %}
+                </span>
+            </div>
+        {% endif %}
+        {% else %}
+          <h2 class="no-orders-heading">you have no reviews</h2>
+          <a class="back-link" href="{% url 'home' %}">&#x2190; back to home</a>    
+    {% endif %}      
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'customer/js/customer.js' %}"></script> 
+{% endblock %}

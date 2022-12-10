@@ -1,0 +1,164 @@
+:root {
+    --col_one: #D18E85;
+    --col_two: #C8CAC9;
+    --col_three: #000000;
+    --col_four: #ffffff;
+    --col_five: #F2DFE1;
+    --col_six: #C1B198;
+    --col_seven: #F8B195;
+    --col_eight: #C06C84;
+    --col_nine: #F2CFBB;
+    --font_one: 'Mali', cursive;
+    --font_two: 'Hubballi', cursive;
+}
+
+
+.container {
+    max-width: 1200px;
+    height: 100%;
+    display: flex;
+    position: relative;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contact-section {
+    position: relative;
+    height: calc(100vh + 174px)
+}
+
+.contact-form-box {
+    width: 50%;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+    text-align: center;
+  }
+  
+  .contact-icon {
+    top: 2%;
+    position: absolute;
+    height: 350px;
+    width: 350px;
+    left: 8%;
+    transform: rotate(347deg);
+  }
+  
+  .contact-form-box p {
+    margin-bottom: 15px;
+    margin-top: 20px;
+    font-size: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    font-family: var(--font_two);
+    text-transform: uppercase;
+  }
+  
+  .contact-form {
+    width: 100%;
+    height: 525px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .contact-form button {
+    width: 85%;
+  }
+  
+  .contact-form textarea {
+    height: 150px;
+    width: 85%;
+    outline: none;
+    border: none;
+    box-shadow: rgb(0 0 0 / 10%) 0px 0px 5px 0px, rgb(0 0 0 / 10%) 0px 0px 1px 0px;
+    cursor: pointer;
+    text-align: center;
+    letter-spacing: 1px;
+    font-family: var(--font_two);
+    font-size: 16px;
+    resize: none;
+    overflow: auto;
+    padding: 15px;
+    margin-top: 5px;
+    text-align: center;
+  }
+  
+  .contact-form input {
+    outline: none;
+    border: none;
+    box-shadow: rgb(0 0 0 / 10%) 0px 0px 5px 0px, rgb(0 0 0 / 10%) 0px 0px 1px 0px;
+    font-family: var(--font_two);
+    font-size: 18px;
+    text-align: center;
+    height: 40px;
+    margin-top: 5px;
+    width: 85%;
+  }
+  
+  .contact-form label {
+    font-family: 'Nanum Pen Script', cursive;
+    margin-bottom: -15px;
+    text-transform: uppercase;
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+
+  
+  @media screen and (max-width: 1150px) {
+    .contact-section {
+      height: 100vh;
+    }
+
+    .contact-form-box {
+      width: 80%;
+      height: auto;
+    }
+
+    .contact-form-box h2 {
+      font-size: 40px;
+    }
+
+    .contact-form-box p {
+      font-size: 17px;
+    }
+
+    .contact-form label {
+      margin-bottom: 5px;
+      margin-top: 5px;
+      font-size: 15px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      margin-bottom: 5px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .contact-form-box h2 {
+      font-size: 30px;
+    }
+
+    .contact-form-box p {
+      font-size: 13px;
+    }
+
+    .contact-section {
+      height: 100%;
+      min-height: 100vh;
+    }
+
+    .contact-form-box {
+      height: 700px;
+      margin: 106px auto;
+    }
+
+  }
